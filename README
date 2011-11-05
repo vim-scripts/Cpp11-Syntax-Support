@@ -1,0 +1,8 @@
+This is a mirror of http://www.vim.org/scripts/script.php?script_id=3797
+
+Modified existing c.vim and cpp.vim (into cpp11.vim and cpp11_cbase.vim) to add support for new language features found in C++11.
+
+* Initialiser lists and lambdas no longer cause curly error highlighting ({} allowed within parentheses).
+* constexpr keyword added.
+
+I'm adding features as I hit them - if something is bugging you and not yet added, let me know.

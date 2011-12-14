@@ -28,7 +28,7 @@ endif
 " C++ extentions
 syn keyword cppStatement	new delete this friend using constexpr static_assert decltype
 syn keyword cppAccess		public protected private
-syn keyword cppType		inline virtual explicit export bool wchar_t nullptr_t
+syn keyword cppType		inline virtual explicit export bool wchar_t nullptr_t override final
 syn keyword cppExceptions	throw try catch
 syn keyword cppOperator		operator typeid
 syn keyword cppOperator		and bitor or xor compl bitand and_eq or_eq xor_eq not not_eq

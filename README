@@ -4,6 +4,7 @@ Modified existing c.vim and cpp.vim (into cpp11.vim and cpp11_cbase.vim) to add 
 
 * Initialiser lists and lambdas no longer cause curly error highlighting ({} allowed within parentheses).
 * constexpr, nullptr_t, nullptr, static_assert, decltype, override, final & tuple keyword added.
+* New Unicode and raw string literals added.
 
 
 I'm adding features as I hit them - if something is bugging you and not yet added, let me know.

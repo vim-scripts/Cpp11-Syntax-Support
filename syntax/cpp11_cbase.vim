@@ -40,7 +40,6 @@ if exists("c_no_cformat")
   syn region	cString		start=+L\="+ skip=+\\\\\|\\"+ end=+"+ contains=cSpecial,@Spell
   " cCppString: same as cString, but ends at end of line
   syn region	cCppString	start=+L\=\%(u8\|[uU]\)\="+ skip=+\\\\\|\\"\|\\$+ excludenl end=+"+ end='$' contains=cSpecial,@Spell
-  syn region	cCppRawString	start=+L\=\%(u8\|[uU]\)\=R"\z([^\()[:space:][:cntrl:]]\{,16}\)(+ skip=+\\\\\|\\$+ excludenl end=+)\z1"+ end='$' contains=cSpecial,@Spell
 else
   if !exists("c_no_c99") " ISO C99
     syn match	cFormat		display "%\(\d\+\$\)\=[-+' #0*]*\(\d*\|\*\|\*\d\+\$\)\(\.\(\d*\|\*\|\*\d\+\$\)\)\=\([hlLjzt]\|ll\|hh\)\=\([aAbdiuoxXDOUfFeEgGcCsSpn]\|\[\^\=.[^]]*\]\)" contained
@@ -51,8 +50,8 @@ else
   syn region	cString		start=+L\="+ skip=+\\\\\|\\"+ end=+"+ contains=cSpecial,cFormat,@Spell
   " cCppString: same as cString, but ends at end of line
   syn region	cCppString	start=+L\=\%(u8\|[uU]\)\="+ skip=+\\\\\|\\"\|\\$+ excludenl end=+"+ end='$' contains=cSpecial,cFormat,@Spell
-  syn region	cCppRawString	start=+L\=\%(u8\|[uU]\)\=R"\z([^\()[:space:][:cntrl:]]\{,16}\)(+ skip=+\\\\\|\\$+ excludenl end=+)\z1"+ end='$' contains=cSpecial,cFormat,@Spell
 endif
+syn region	cCppRawString	start=+L\=\%(u8\|[uU]\)\=R"\z([^\()[:space:][:cntrl:]]\{,16}\)(+ skip=+\\$+ excludenl end=+)\z1"+ end='$' contains=@Spell
 
 syn match	cCharacter	"L\='[^\\]'"
 syn match	cCharacter	"L'[^']*'" contains=cSpecial

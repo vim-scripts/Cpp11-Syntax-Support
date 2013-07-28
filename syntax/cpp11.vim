@@ -26,7 +26,7 @@ else
 endif
 
 " C++ extentions
-syn keyword cppStatement	new delete this friend using constexpr static_assert decltype
+syn keyword cppStatement	new delete this friend using constexpr static_assert decltype noexcept
 syn keyword cppAccess		public protected private
 syn keyword cppType		inline virtual explicit export bool wchar_t nullptr_t override final tuple
 syn keyword cppExceptions	throw try catch

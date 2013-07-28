@@ -3,7 +3,7 @@ This is a mirror of http://www.vim.org/scripts/script.php?script_id=3797
 Modified existing c.vim and cpp.vim (into cpp11.vim and cpp11_cbase.vim) to add support for new language features found in C++11.
 
 * Initialiser lists and lambdas no longer cause curly error highlighting ({} allowed within parentheses).
-* constexpr, nullptr_t, nullptr, static_assert, decltype, override, final & tuple keyword added.
+* constexpr, nullptr, static_assert, decltype, override & final keyword added.
 * New Unicode and raw string literals added.
 
 

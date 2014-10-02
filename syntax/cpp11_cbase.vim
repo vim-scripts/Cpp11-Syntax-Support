@@ -39,7 +39,7 @@ endif
 if exists("c_no_cformat")
   syn region	cString		start=+L\="+ skip=+\\\\\|\\"+ end=+"+ contains=cSpecial,@Spell
   " cCppString: same as cString, but ends at end of line
-  syn region	cCppString	start=+L\="+ skip=+\\\\\|\\"\|\\$+ excludenl end=+"+ end='$' contains=cSpecial,@Spell
+  syn region	cCppString	start=+L\=\%(u8\|[uU]\)\="+ skip=+\\\\\|\\"\|\\$+ excludenl end=+"+ end='$' contains=cSpecial,@Spell
 else
   if !exists("c_no_c99") " ISO C99
     syn match	cFormat		display "%\(\d\+\$\)\=[-+' #0*]*\(\d*\|\*\|\*\d\+\$\)\(\.\(\d*\|\*\|\*\d\+\$\)\)\=\([hlLjzt]\|ll\|hh\)\=\([aAbdiuoxXDOUfFeEgGcCsSpn]\|\[\^\=.[^]]*\]\)" contained
@@ -49,8 +49,9 @@ else
   syn match	cFormat		display "%%" contained
   syn region	cString		start=+L\="+ skip=+\\\\\|\\"+ end=+"+ contains=cSpecial,cFormat,@Spell
   " cCppString: same as cString, but ends at end of line
-  syn region	cCppString	start=+L\="+ skip=+\\\\\|\\"\|\\$+ excludenl end=+"+ end='$' contains=cSpecial,cFormat,@Spell
+  syn region	cCppString	start=+L\=\%(u8\|[uU]\)\="+ skip=+\\\\\|\\"\|\\$+ excludenl end=+"+ end='$' contains=cSpecial,cFormat,@Spell
 endif
+syn region	cCppRawString	start=+L\=\%(u8\|[uU]\)\=R"\z([^\()[:space:][:cntrl:]]\{,16}\)(+ skip=+\\$+ excludenl end=+)\z1"+ end='$' contains=@Spell
 
 syn match	cCharacter	"L\='[^\\]'"
 syn match	cCharacter	"L'[^']*'" contains=cSpecial
@@ -78,7 +79,7 @@ endif
 " This should be before cErrInParen to avoid problems with #define ({ xxx })
 if exists("c_curly_error")
   syntax match cCurlyError "}"
-  syntax region	cBlock		start="{" end="}" contains=ALLBUT,cCurlyError,@cParenGroup,cErrInParen,cCppParen,cErrInBracket,cCppBracket,cCppString,@Spell fold
+  syntax region	cBlock		start="{" end="}" contains=ALLBUT,cCurlyError,@cParenGroup,cErrInParen,cCppParen,cErrInBracket,cCppBracket,cCppString,cCppRawString,@Spell fold
 else
   syntax region	cBlock		start="{" end="}" transparent fold
 endif
@@ -88,24 +89,24 @@ endif
 " But avoid matching <::.
 syn cluster	cParenGroup	contains=cParenError,cIncluded,cSpecial,cCommentSkip,cCommentString,cComment2String,@cCommentGroup,cCommentStartError,cUserCont,cUserLabel,cBitField,cOctalZero,cCppOut,cCppOut2,cCppSkip,cFormat,cNumber,cFloat,cOctal,cOctalError,cNumbersCom
 if exists("c_no_curly_error")
-  syn region	cParen		transparent start='(' end=')' contains=ALLBUT,@cParenGroup,cCppParen,cCppString,@Spell
+  syn region	cParen		transparent start='(' end=')' contains=ALLBUT,@cParenGroup,cCppParen,cCppString,cCppRawString,@Spell
   " cCppParen: same as cParen but ends at end-of-line; used in cDefine
   syn region	cCppParen	transparent start='(' skip='\\$' excludenl end=')' end='$' contained contains=ALLBUT,@cParenGroup,cParen,cString,@Spell
   syn match	cParenError	display ")"
   syn match	cErrInParen	display contained "^^<%\|^%>"
 elseif exists("c_no_bracket_error")
-  syn region	cParen		transparent start='(' end=')' contains=ALLBUT,@cParenGroup,cCppParen,cCppString,@Spell
+  syn region	cParen		transparent start='(' end=')' contains=ALLBUT,@cParenGroup,cCppParen,cCppString,cCppRawString,@Spell
   " cCppParen: same as cParen but ends at end-of-line; used in cDefine
   syn region	cCppParen	transparent start='(' skip='\\$' excludenl end=')' end='$' contained contains=ALLBUT,@cParenGroup,cParen,cString,@Spell
   syn match	cParenError	display ")"
   syn match	cErrInParen	display contained "<%\|%>"
 else
-  syn region	cParen		transparent start='(' end=')' contains=ALLBUT,@cParenGroup,cCppParen,cErrInBracket,cCppBracket,cCppString,@Spell
+  syn region	cParen		transparent start='(' end=')' contains=ALLBUT,@cParenGroup,cCppParen,cErrInBracket,cCppBracket,cCppString,cCppRawString,@Spell
   " cCppParen: same as cParen but ends at end-of-line; used in cDefine
   syn region	cCppParen	transparent start='(' skip='\\$' excludenl end=')' end='$' contained contains=ALLBUT,@cParenGroup,cErrInBracket,cParen,cBracket,cString,@Spell
   syn match	cParenError	display "[\])]"
   syn match	cErrInParen	display contained "<%\|%>"
-  syn region	cBracket	transparent start='\[\|<::\@!' end=']\|:>' contains=ALLBUT,@cParenGroup,cErrInParen,cCppParen,cCppBracket,cCppString,@Spell
+  syn region	cBracket	transparent start='\[\|<::\@!' end=']\|:>' contains=ALLBUT,@cParenGroup,cErrInParen,cCppParen,cCppBracket,cCppString,cCppRawString,@Spell
   " cCppBracket: same as cParen but ends at end-of-line; used in cDefine
   syn region	cCppBracket	transparent start='\[\|<::\@!' skip='\\$' excludenl end=']\|:>' end='$' contained contains=ALLBUT,@cParenGroup,cErrInParen,cParen,cBracket,cString,@Spell
   syn match	cErrInBracket	display contained "[);{}]\|<%\|%>"
@@ -276,7 +277,7 @@ if !exists("c_no_c99") " ISO C99
 endif
 
 " Accept %: for # (C99)
-syn region      cPreCondit      start="^\s*\(%:\|#\)\s*\(if\|ifdef\|ifndef\|elif\)\>" skip="\\$" end="$"  keepend contains=cComment,cCommentL,cCppString,cCharacter,cCppParen,cParenError,cNumbers,cCommentError,cSpaceError
+syn region      cPreCondit      start="^\s*\(%:\|#\)\s*\(if\|ifdef\|ifndef\|elif\)\>" skip="\\$" end="$"  keepend contains=cComment,cCommentL,cCppString,cCppRawString,cCharacter,cCppParen,cParenError,cNumbers,cCommentError,cSpaceError
 syn match	cPreCondit	display "^\s*\(%:\|#\)\s*\(else\|endif\)\>"
 if !exists("c_no_if0")
   if !exists("c_no_if0_fold")
@@ -296,7 +297,7 @@ syn region	cDefine		start="^\s*\(%:\|#\)\s*\(define\|undef\)\>" skip="\\$" end="
 syn region	cPreProc	start="^\s*\(%:\|#\)\s*\(pragma\>\|line\>\|warning\>\|warn\>\|error\>\)" skip="\\$" end="$" keepend contains=ALLBUT,@cPreProcGroup,@Spell
 
 " Highlight User Labels
-syn cluster	cMultiGroup	contains=cIncluded,cSpecial,cCommentSkip,cCommentString,cComment2String,@cCommentGroup,cCommentStartError,cUserCont,cUserLabel,cBitField,cOctalZero,cCppOut,cCppOut2,cCppSkip,cFormat,cNumber,cFloat,cOctal,cOctalError,cNumbersCom,cCppParen,cCppBracket,cCppString
+syn cluster	cMultiGroup	contains=cIncluded,cSpecial,cCommentSkip,cCommentString,cComment2String,@cCommentGroup,cCommentStartError,cUserCont,cUserLabel,cBitField,cOctalZero,cCppOut,cCppOut2,cCppSkip,cFormat,cNumber,cFloat,cOctal,cOctalError,cNumbersCom,cCppParen,cCppBracket,cCppString,cCppRawString
 syn region	cMulti		transparent start='?' skip='::' end=':' contains=ALLBUT,@cMultiGroup,@Spell
 " Avoid matching foo::bar() in C++ by requiring that the next char is not ':'
 syn cluster	cLabelGroup	contains=cUserLabel
@@ -330,6 +331,7 @@ endif
 " Only used when an item doesn't have highlighting yet
 hi def link cFormat		cSpecial
 hi def link cCppString		cString
+hi def link cCppRawString	cString
 hi def link cCommentL		cComment
 hi def link cCommentStart	cComment
 hi def link cLabel		Label

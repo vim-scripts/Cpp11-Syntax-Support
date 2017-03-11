@@ -26,17 +26,17 @@ else
 endif
 
 " C++ extentions
-syn keyword cppStatement	new delete this friend using constexpr
+syn keyword cppStatement	new delete this friend using constexpr static_assert decltype noexcept
 syn keyword cppAccess		public protected private
-syn keyword cppType		inline virtual explicit export bool wchar_t
+syn keyword cppType		inline virtual explicit export bool wchar_t override final
 syn keyword cppExceptions	throw try catch
 syn keyword cppOperator		operator typeid
 syn keyword cppOperator		and bitor or xor compl bitand and_eq or_eq xor_eq not not_eq
 syn match cppCast		"\<\(const\|static\|dynamic\|reinterpret\)_cast\s*<"me=e-1
 syn match cppCast		"\<\(const\|static\|dynamic\|reinterpret\)_cast\s*$"
-syn keyword cppStorageClass	mutable
+syn keyword cppStorageClass	mutable thread_local
 syn keyword cppStructure	class typename template namespace
-syn keyword cppNumber		NPOS
+syn keyword cppNumber		NPOS nullptr
 syn keyword cppBoolean		true false
 
 " The minimum and maximum operators in GNU C++
